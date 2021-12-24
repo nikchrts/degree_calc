@@ -1,69 +1,53 @@
-#include <iostream>     // std::cout
-#include <sstream>      // std::istringstream
-#include <string>       // std::string
+#include <iostream>
 #include <fstream>
+#include <sstream>
+#include <string>
 #include <vector>
+#include <iterator>
+#include "Course.h"
+#include "Coursework.h"
 
-class Coursework{
-    private:
-        struct Course{
-            std::string name;
-            int credits;
-            int grade;
-        };
-        double average;
-        int n_credits;
-        std::vector<Course> db;
+using namespace std;
 
-    public:
-        Coursework(){}
+// vector<Course> createDB (const string& file) {
+//     std::ifstream txtFile {file};
+//     std::string line;
+//     vector<Course> dbCourse;
 
-    void OpenFile(){
-        std::ifstream myfile("coursework");
-        std::string line;
-        Course temp;
+//     if (!txtFile){
+//         std::cerr << "Error! " << file << " can't be opened for reading!\n";
+//     }
 
-        if (myfile.is_open()){
-            while (std::getline(myfile, line)){
-                  std::istringstream iss(line);
-                  iss >> temp.name;
-                  iss >> temp.credits;
-                  iss >> temp.grade;
-                  db.push_back(temp);
-              }
-              myfile.close();
-        }
-        else std::cout << "Unable to open file";
-    }
+//     while (getline(txtFile, line)) {
+//         std::istringstream lineStream {line};
 
-    void CalculateAverage(){
-        n_credits = 0;
-        int weighted_sum = 0;
+//         Course newCourse;
+//         newCourse.setName(words[0]);                // First : Name
+//         newCourse.setCredits(stoi(words[1]));       // Second : Credits
+//         newCourse.setGrade(stoi(words[2]));         // Third: Grade
 
-        //for (std::vector<Course>::iterator it = db.begin(); it != db.end(); ++it){
-        for (int it = 0; it < db.size(); ++it){
-          n_credits += db[it].credits;
-          weighted_sum += db[it].credits * db[it].grade;
-        };
-        average = (double)weighted_sum/n_credits;
-        Coursework::DisplayOutput();
-    }
+//         dbCourse.push_back(newCourse);
+//     }
 
-    void DisplayOutput(){
-        std::cout << "\n\tPROGRAM TO CALCULATE DEGREE SCORE\n\t" << std::string(33, '-') << std::endl;
-        std::cout << "\n\tCompleted courses: ";
-        for (int j = 0; j < 3; j++) {printf ("%s, ",db[j].name.c_str());}
-        printf("\n\tNumber of credits: %d/100\n", n_credits);
-        printf("\n\tAverage Score:\t%.2f (out of 30)\n\t\t\t%.2f (out of 110)\n\n", average, average*110/30);
+//     txtFile.close();
+//     return dbCourse;
+// };
 
-    }
 
-};
+int main () {
 
-int main (){
-  Coursework start;
-  start.OpenFile();
-  start.CalculateAverage();
+    const string fileName {"coursework"};
+    Coursework myCareer;
 
-  return 0;
+    cout << "WELCOME !!\n\nReading data from '" << fileName << "' file ... ";
+    myCareer.createDB(fileName);
+    // vector<Course> dbCourse = createDB(fileName);
+    cout << "DONE!" << endl;
+    
+    cout << "The last course is: " << endl;
+    cout << myCareer.giveCourse();
+
+
+    return 0;
 }
+
