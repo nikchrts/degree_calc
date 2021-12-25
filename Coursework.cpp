@@ -70,6 +70,7 @@ void Coursework::showDatabase () const {
 
 void Coursework::addCourse (Course& newCourse) {
     db.push_back(newCourse);
+    // ALSO WRITE IT IN THE TXT FILE
 }
 
 void Coursework::addCourseWithDetails (std::string& _name, int& _credits, int& _grade) {
