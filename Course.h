@@ -6,13 +6,15 @@
 
 class Course {
     private:
-        int grade;
-        int credits;
-        std::string name;
+        int _grade;
+        int _credits;
+        std::string _name;
 
     public:
-        Course (std::string _name="", int _credits=0, int _grade=0);
+        Course (std::string name="", int credits=0, int grade=0);
 
+        const int weightedGrade() const { return _grade * _credits; }
+        const int& credits() const { return _credits; }
         friend std::ostream& operator << (std::ostream& out, const Course& course);
 };
 

@@ -7,9 +7,8 @@
 
 class Career {
     private:
-        std::vector<Course> db;
-        int totalCredits;
-        int sumGrade;
+        std::vector<Course> _db;
+        int _totalCredits;
 
     public:
         Career();

@@ -2,8 +2,9 @@
 #include "Course.h"
 #include <sstream>
 #include <fstream>
+#include <algorithm>
 
-Career::Career() : sumGrade{0}, totalCredits{0}, db{} {};
+Career::Career() : _totalCredits{0}, _db{} {};
 
 void Career::createDB (const std::string& file) {
 
@@ -34,8 +35,8 @@ void Career::createDB (const std::string& file) {
 
         lineStream >> newData.name >> newData.credits >> newData.grade;
         Course newCourse (newData.name, newData.credits, newData.grade);
-
-        db.push_back(newCourse);
+        _totalCredits += newData.credits;
+        _db.push_back(newCourse);
     }
 
     // Close the opened file once finished
@@ -44,7 +45,7 @@ void Career::createDB (const std::string& file) {
 
 float Career::calcAverageGrade (const int &out_of) const {
 
-    if (!totalCredits) {
+    if (!_totalCredits) {
         std::cerr << "Can't calculate average because the total amount of credits is zero!" << std::endl;
         std::exit (EXIT_FAILURE);
     }
@@ -54,23 +55,25 @@ float Career::calcAverageGrade (const int &out_of) const {
         std::exit (EXIT_FAILURE);
     }
 
-
-    float average = (float) sumGrade / db.size();
-    return average * out_of / 30;
+    float averageNum {0};
+    std::for_each(this->_db.begin(), this->_db.end(), [&](auto const &c){ return averageNum += c.weightedGrade();});
+    return (averageNum / _totalCredits) * out_of / 30;
 }
 
 void Career::showDatabase () const {
-    for (auto course : db) {
+    for (auto course : _db) {
         std::cout << course << std::endl;
     }
 };
 
 void Career::addCourse (Course& newCourse) {
-    db.push_back(newCourse);
+    _db.push_back(newCourse);
+    _totalCredits += newCourse.credits();
     // ALSO WRITE IT IN THE TXT FILE
 }
 
-void Career::addCourseWithDetails (std::string& _name, int& _credits, int& _grade) {
-    Course newCourse(_name, _credits, _grade);
-    db.push_back(newCourse);
+void Career::addCourseWithDetails (std::string& name, int& credits, int& grade) {
+    Course newCourse(name, credits, grade);
+    _db.push_back(newCourse);
+    _totalCredits += credits;
 }
