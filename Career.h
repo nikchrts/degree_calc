@@ -1,32 +1,25 @@
-#ifndef COURSEWORK_H
-#define COURSEWORK_H
+#ifndef CAREER_H
+#define CAREER_H
 
 #include "Course.h"
 #include <vector>
 #include <iostream>
 
-class Coursework {
+class Career {
     private:
         std::vector<Course> db;
-        float averageGrade;
         int totalCredits;
         int sumGrade;
 
     public:
-        Coursework();
+        Career();
 
         void createDB (const std::string& file);
 
-        void calcAverage ();
+        float calcAverageGrade (const int &out_of) const;
         void showDatabase () const;
         void addCourse (Course& newCourse);
         void addCourseWithDetails (std::string& _name, int& _credits, int& _grade);
-
-        int getTotalCredits () const { return totalCredits; }
-        float getAverageGrade () const { return averageGrade; }
-        int getSumGrade () const { return sumGrade; }
-        int getNumCourses () const { return db.size(); }
-
 };
 
 #endif
