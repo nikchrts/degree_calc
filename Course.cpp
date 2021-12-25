@@ -1,12 +1,12 @@
 #include "Course.h"
-#include <iostream>
 
-Course::Course () : grade{0}, credits{0}, name{""} {};
+Course::Course (std::string _name, int _credits, int _grade) : name{_name}, credits{_credits}, grade{_grade} {}
 
 std::ostream& operator << (std::ostream& out, const Course& course) {
-    out << "COURSE DETAILS" << std::endl;
-    out << "Name : " << course.getName() << std::endl;
-    out << "Credits : " << course.getCredits() << std::endl;
-    out << "Grade : " << course.getGrade() << std::endl;
+    std::string name {course.getName()};
+    std:: transform(name.begin(), name.end(), name.begin(), ::toupper);
+    out << name << std::endl;
+    out << "Credits: " << course.getCredits() << std::endl;
+    out << "Grade: " << course.getGrade() << std::endl;
     return out;
 }
